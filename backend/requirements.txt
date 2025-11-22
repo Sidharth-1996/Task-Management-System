@@ -1,0 +1,17 @@
+# Django and REST Framework
+Django==5.2.8
+djangorestframework==3.16.1
+djangorestframework-simplejwt==5.5.1
+
+# CORS for frontend communication
+django-cors-headers==4.9.0
+
+# Password hashing (bcrypt alternative - Django uses PBKDF2 by default, but we can use bcrypt)
+bcrypt==4.2.0
+
+# Environment variables
+python-dotenv==1.0.1
+
+# Database (SQLite is default, but can use PostgreSQL)
+# psycopg2-binary==2.9.9  # Uncomment if using PostgreSQL
+
