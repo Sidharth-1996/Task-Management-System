@@ -44,20 +44,34 @@ class Command(BaseCommand):
 
         for u in users:
             # Check if user already exists
+            user = None
             if User.objects.filter(username=u["username"]).exists():
-                self.stdout.write(self.style.WARNING(f"User '{u['username']}' already exists. Skipping."))
+                user = User.objects.get(username=u["username"])
             elif User.objects.filter(email=u["email"]).exists():
-                self.stdout.write(self.style.WARNING(f"User with email '{u['email']}' already exists. Skipping."))
+                user = User.objects.get(email=u["email"])
+            
+            if user:
+                # Update existing user with correct password and role
+                user.set_password(u["password"])
+                user.email = u["email"]
+                user.role = u["role"]
+                user.first_name = u["first_name"]
+                user.last_name = u["last_name"]
+                user.is_active = True
+                user.save()
+                self.stdout.write(self.style.SUCCESS(f"Updated user: {u['username']} ({u['role']})"))
             else:
                 # Create user with hashed password
-                User.objects.create(
+                user = User.objects.create_user(
                     username=u["username"],
                     email=u["email"],
-                    password=make_password(u["password"]),
-                    role=u["role"],
+                    password=u["password"],
                     first_name=u["first_name"],
                     last_name=u["last_name"],
                 )
+                # Set custom role field
+                user.role = u["role"]
+                user.save()
                 self.stdout.write(self.style.SUCCESS(f"Created user: {u['username']} ({u['role']})"))
 
         self.stdout.write(self.style.SUCCESS("\nSeeding complete!"))

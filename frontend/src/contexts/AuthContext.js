@@ -1,37 +1,23 @@
-/**
- * Authentication Context
- * Provides authentication state and methods throughout the application
- * Manages user session, JWT tokens, and authentication status
- */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { authAPI } from '../services/api';
 
-// Create Auth Context
 const AuthContext = createContext(null);
 
-/**
- * AuthProvider Component
- * Wraps the application and provides authentication context
- */
 export const AuthProvider = ({ children }) => {
-  // State for user data and authentication token
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
 
-  // Load user data from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     const storedToken = localStorage.getItem('token');
 
     if (storedToken && storedUser) {
       try {
-        // Parse user data from localStorage
         const userData = JSON.parse(storedUser);
         setUser(userData);
         setToken(storedToken);
       } catch (error) {
-        // If parsing fails, clear invalid data
         localStorage.removeItem('token');
         localStorage.removeItem('user');
       }
@@ -39,13 +25,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  /**
-   * Login function
-   * Authenticates user and stores token and user data
-   */
   const login = async (credentials) => {
     try {
-      // Call login API
       const response = await authAPI.login(credentials);
       
       // Check if response has access token

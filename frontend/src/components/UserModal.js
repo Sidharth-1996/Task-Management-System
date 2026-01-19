@@ -1,7 +1,3 @@
-/**
- * UserModal Component
- * Modal form for creating and editing users (Admin only)
- */
 import React, { useState, useEffect } from 'react';
 import { usersAPI } from '../services/api';
 import { X } from 'lucide-react';

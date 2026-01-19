@@ -19,7 +19,19 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         username = attrs.get('username')
         password = attrs.get('password')
 
+        # Validate that username and password are provided
+        if not username:
+            raise serializers.ValidationError({
+                'username': 'This field is required.'
+            })
+        
+        if not password:
+            raise serializers.ValidationError({
+                'password': 'This field is required.'
+            })
+
         # Try to find user by username first, then by email
+        user = None
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
@@ -34,20 +46,20 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Authenticate with the username and password
         from django.contrib.auth import authenticate
-        user = authenticate(username=user.username, password=password)
+        authenticated_user = authenticate(username=user.username, password=password)
         
-        if not user:
+        if not authenticated_user:
             raise serializers.ValidationError({
                 'password': 'Invalid password'
             })
 
-        if not user.is_active:
+        if not authenticated_user.is_active:
             raise serializers.ValidationError({
                 'username': 'User account is disabled'
             })
 
         # Get token data
-        refresh = self.get_token(user)
+        refresh = self.get_token(authenticated_user)
         data = {
             'refresh': str(refresh),
             'access': str(refresh.access_token),
