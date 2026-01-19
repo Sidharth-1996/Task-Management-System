@@ -59,13 +59,15 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "https://task-management-system-2sjc1zmo5-sidharths-projects-62dc23b4.vercel.app",
+    "https://task-management-system-beryl-two.vercel.app",
+    "task-management-system-sidharths-projects-62dc23b4.vercel.app",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://task-management-system-2sjc1zmo5-sidharths-projects-62dc23b4.vercel.app",
+    "https://task-management-system-beryl-two.vercel.app",
+    "task-management-system-sidharths-projects-62dc23b4.vercel.app",
 ]
 
 
