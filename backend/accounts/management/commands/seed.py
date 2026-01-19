@@ -43,6 +43,10 @@ class Command(BaseCommand):
         ]
 
         for u in users:
+            # Determine is_superuser and is_staff based on role
+            is_superuser = u["role"] == "admin"
+            is_staff = u["role"] in ["admin", "manager"]
+            
             # Check if user already exists
             user = None
             if User.objects.filter(username=u["username"]).exists():
@@ -57,6 +61,8 @@ class Command(BaseCommand):
                 user.role = u["role"]
                 user.first_name = u["first_name"]
                 user.last_name = u["last_name"]
+                user.is_superuser = is_superuser
+                user.is_staff = is_staff
                 user.is_active = True
                 user.save()
                 self.stdout.write(self.style.SUCCESS(f"Updated user: {u['username']} ({u['role']})"))
@@ -69,8 +75,10 @@ class Command(BaseCommand):
                     first_name=u["first_name"],
                     last_name=u["last_name"],
                 )
-                # Set custom role field
+                # Set custom role field and permissions
                 user.role = u["role"]
+                user.is_superuser = is_superuser
+                user.is_staff = is_staff
                 user.save()
                 self.stdout.write(self.style.SUCCESS(f"Created user: {u['username']} ({u['role']})"))
 

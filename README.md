@@ -102,6 +102,8 @@ Task-Management-System/
 6. **Seed demo data** (optional)
    ```bash
    python manage.py seed
+   # OR for production deployment:
+   python manage.py create_demo_users
    ```
    This creates demo users:
    - Admin: `admin@example.com` / `admin123`
@@ -259,7 +261,25 @@ The dashboard provides real-time insights:
    - Set up static files
    - Configure CORS allowed origins
 
-3. Deploy using your platform's instructions
+3. **Create demo users automatically during deployment:**
+   
+   **Option A: Add to build command (Render)**
+   ```
+   python manage.py migrate && python manage.py create_demo_users && gunicorn core.wsgi:application
+   ```
+   
+   **Option B: Add as release command in Procfile**
+   ```
+   release: python manage.py migrate --noinput && python manage.py create_demo_users
+   web: gunicorn core.wsgi:application
+   ```
+   
+   **Option C: Run manually after deployment**
+   ```bash
+   python manage.py create_demo_users
+   ```
+
+4. Deploy using your platform's instructions
 
 ### Frontend (Vercel / Netlify)
 
