@@ -76,7 +76,7 @@ const Attendance = () => {
       setSelectedMonth(newMonth);
       setSelectedYear(newYear);
     }
-  }, [selectedDate]);
+  }, [selectedDate, selectedMonth, selectedYear]);
 
   const attendanceMap = useMemo(() => {
     const map = {};
@@ -93,11 +93,6 @@ const Attendance = () => {
       return recordDate === selectedDate;
     });
   }, [attendance, selectedDate]);
-
-  const employeesForDate = useMemo(() => {
-    const markedEmployeeIds = new Set(selectedDateAttendance.map(a => a.employee?.id));
-    return employees.filter(emp => !markedEmployeeIds.has(emp.id));
-  }, [employees, selectedDateAttendance]);
 
   const handleMarkAttendance = () => {
     setEditingRecord(null);

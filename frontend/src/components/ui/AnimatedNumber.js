@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 const AnimatedNumber = ({ value, duration = 1000, className = '' }) => {
   const [displayValue, setDisplayValue] = useState(0);
+  const displayValueRef = useRef(0);
+
+  useEffect(() => {
+    displayValueRef.current = displayValue;
+  }, [displayValue]);
 
   useEffect(() => {
     let startTime = null;
-    const startValue = displayValue;
+    const startValue = displayValueRef.current;
     const endValue = value || 0;
     let animationFrameId = null;
 
