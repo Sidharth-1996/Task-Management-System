@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
         }
       } else if (error.request) {
         // Request was made but no response received
-        errorMessage = 'Cannot connect to server. Please make sure the backend is running on http://localhost:8000';
+        errorMessage = 'Cannot connect to server. Please check if the backend is running and accessible.';
       } else {
         // Something else happened
         errorMessage = error.message || 'An unexpected error occurred';
