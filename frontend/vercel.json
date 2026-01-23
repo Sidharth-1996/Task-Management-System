@@ -5,6 +5,14 @@
       "dest": "/static/$1"
     },
     {
+      "src": "/favicon.ico",
+      "dest": "/logo192.png"
+    },
+    {
+      "src": "/favicon.svg",
+      "dest": "/favicon.svg"
+    },
+    {
       "src": "/manifest.json",
       "dest": "/manifest.json"
     },
